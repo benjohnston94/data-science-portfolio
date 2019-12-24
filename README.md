@@ -5,10 +5,8 @@ Hi there, you've stumbled across my various data science and data analysis proje
 \- Ben
 
 ## Project links
-* [Normalising a database]('Normalising a database'/appearance_type.csv)
+* [Normalising a database](https://github.com/benjohnston94/data-science-portfolio/blob/master/Normalising%20a%20database/Project:%20SQL%20database%20design.ipynb)
 * Finding market opportunities using SQL
-
-[Normalising a database](../blob/master/Normalising a database/Project: SQL database design.ipynb)
 
 ## License
 
