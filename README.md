@@ -6,7 +6,7 @@ Hi there, you've stumbled across my various data science and data analysis proje
 
 ## Project links
 * [Normalising a database](https://github.com/benjohnston94/data-science-portfolio/blob/master/Normalising%20a%20database/Project:%20SQL%20database%20design.ipynb)
-* Finding market opportunities using SQL
+* [Finding market opportunities using SQL](https://github.com/benjohnston94/data-science-portfolio/blob/master/Analysing%20market%20opportunities%20(SQL)/Project:%20Analysing%20market%20opportunities%20with%20SQL.ipynb)
 
 ## License
 
