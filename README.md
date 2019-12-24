@@ -1,6 +1,8 @@
 # Data science portfolio
 
-Hi there. You've come across my portfolio of data science and data analysis projects. Thanks for visiting. Have a read and hope you enjoy.
+Hi there!
+
+You've come across my portfolio of data science and data analysis projects. Thanks for visiting. Have a read and hope you enjoy.
 
 \- Ben
 
