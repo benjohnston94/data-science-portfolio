@@ -2,7 +2,7 @@
 
 Hi there!
 
-You've come across my portfolio of data science and data analysis projects. Thanks for visiting. Have a read and hope you enjoy.
+You've come across my portfolio of data science projects. Thanks for visiting. Have a read and hope you enjoy.
 
 \- Ben
 
