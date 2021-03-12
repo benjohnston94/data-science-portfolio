@@ -6,16 +6,16 @@ from pandas import DataFrame # for type hints
 from typing import List
 
 
-# def drop_rows(df: DataFrame,
-#                cols: List[str] = ["Embarked"]):
-#     """
-#     For specific columns with only a couple of null values, 
-#     drop these values for ease
-#     """
-#     for col in cols:
-#         df = df.loc[raw[col].notnull()].copy()
+def drop_rows(df: DataFrame,
+               cols: List[str] = ["Embarked"]):
+    """
+    For specific columns with only a couple of null values, 
+    drop these values for ease
+    """
+    for col in cols:
+        df = df.loc[df[col].notnull()].copy()
     
-#     return df
+    return df
 
 def impute_incomplete_cols(df: DataFrame,
                            cols: List[str] = ["Age"],
@@ -72,15 +72,15 @@ def drop_cols(df: DataFrame,
     
     return df
 
-def drop_rows(df: DataFrame) -> DataFrame:
-    """
-    Drop all rows with nulls remaining.
-    Putting this at the end catches anything which had nulls to begin with and 
-    will also drop any related columns that manipulated these rows (e.g. dummy variables)
-    """
-    df.dropna()
+# def drop_rows(df: DataFrame) -> DataFrame:
+#     """
+#     Drop all rows with nulls remaining.
+#     Putting this at the end catches anything which had nulls to begin with and 
+#     will also drop any related columns that manipulated these rows (e.g. dummy variables)
+#     """
+#     df.dropna(inplace=True)
     
-    return df
+#     return df
 
 def read_and_clean_data(file_path: str = "titanic_train.csv") -> DataFrame:
     """
@@ -90,11 +90,11 @@ def read_and_clean_data(file_path: str = "titanic_train.csv") -> DataFrame:
 
     clean = (
         raw             
+        .pipe(drop_rows)
         .pipe(impute_incomplete_cols)
         .pipe(missing_to_boolean)
         .pipe(convert_to_dummy)
         .pipe(drop_cols)
-        .pipe(drop_rows)
     )
 
     assert clean.isna().sum().sum() == 0, "still null values"
