@@ -1,11 +1,12 @@
-    # General
+#%%
+# General
 import numpy as np
 import pandas as pd 
 import matplotlib.pyplot as plt
 import seaborn as sns; sns.set()
 
 # Modelling
-from sklearn.model_selection import train_test_split, RandomizedSearchCV, GridSearchCV
+from sklearn.model_selection import train_test_split, RandomizedSearchCV, GridSearchCV, RepeatedKFold
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression, LogisticRegressionCV
@@ -69,17 +70,22 @@ if __name__=="__main__":
         "rf__max_depth": [1, 3, 5]
     }
 
+    rkfold_cv = RepeatedKFold(n_splits=5, n_repeats=5)
+
     rf_search = GridSearchCV(
         estimator=rf_classifier,
         param_grid=rf_param_grid,
         scoring="f1",
-        verbose=1,
-        cv=5
+        verbose=10,
+        cv=rkfold_cv,
+        return_train_score=True
     )
 
     rf_search.fit(X_train, y_train)
 
     rf_model = rf_search.best_estimator_["rf"]
+
+    print_model_scores(rf_search)
 
     # Evaluating models
 
@@ -99,4 +105,5 @@ if __name__=="__main__":
     
     fig = plt.figure(figsize=(10,5))
     plt.barh(feature_names[sorted_idx], feature_importances[sorted_idx])
-    fig.savefig("feature importance.png")
+    # fig.savefig("feature importance.png")
+    plt.show()
