@@ -1,4 +1,3 @@
-#%%
 """
 Modelling script
 
@@ -203,4 +202,4 @@ if __name__=="__main__":
 
     plt.barh(X.columns[coef_idx_sorted], coef_list[coef_idx_sorted])
 
-    f.savefig("Logistic regression feature importance")
+    f.savefig("logistic-regression-feature-importance")
