@@ -1,3 +1,4 @@
+#%%
 """
 Modelling script
 
@@ -5,7 +6,7 @@ Notes on imbalance target class:
 * Accuracy won't be a good measure so should focus on optimizing
   precision or recall. Because we're looking at loan defaults, false positives are likely
   better than false negatives (it's bad if we *miss* a customer who may default)
-  Thus, we'll use either use precision or f-beta score as the main metric to measure
+  Thus, we'll use either use recall or f-beta score as the main metric to measure
 * When training we'll need to stratify the target in the cross validation loop
 
 Model selection:
@@ -40,6 +41,8 @@ Steps:
 import numpy as np
 import pandas as pd 
 import matplotlib.pyplot as plt 
+from matplotlib import rcParams              # this is for ensuring formatting looks okay
+rcParams.update({'figure.autolayout': True}) # when we save any matplotlib figures
 
 # Imports - modelling
 from sklearn.metrics import (
@@ -47,6 +50,7 @@ from sklearn.metrics import (
     confusion_matrix,
     precision_score,
     recall_score,
+    f1_score,
     fbeta_score,
     roc_auc_score
 )
@@ -69,12 +73,15 @@ BETA = 2 # used for f-beta scores; weighs recalls higher than precision
 ### Data ###
 df = pd.read_pickle("data_cleaned.pkl")
 
-X = df.drop(TARGET_COL, axis=1).values
-y = df[TARGET_COL].values.ravel()
+X = df.drop(TARGET_COL, axis=1)
+y = df[TARGET_COL]
+
+X_array = X.values
+y_array = y.values.ravel()
 
 X_train, X_test, y_train, y_test = train_test_split(
-    X,
-    y,
+    X_array,
+    y_array,
     test_size=TEST_SIZE,
     random_state=RANDOM_STATE
 )
@@ -115,8 +122,22 @@ grid = GridSearchCV(
 
 ### Scoring ###
 def print_model_scores(model,
-                       scoring_list = [accuracy_score, precision_score, recall_score, fbeta_score, roc_auc_score], 
-                       scoring_names = ["accuracy", "precision", "recall", "fbeta", "ROC AUC"],
+                       scoring_list = [
+                           accuracy_score,
+                           precision_score,
+                           recall_score,
+                           f1_score,
+                           fbeta_score,
+                           roc_auc_score
+                        ], 
+                       scoring_names = [
+                           "accuracy",
+                           "precision",
+                           "recall",
+                           "f1",
+                           "fbeta",
+                           "ROC AUC"
+                        ],
                        X_train = X_train,
                        X_test = X_test,
                        y_train = y_train,
@@ -173,7 +194,13 @@ if __name__=="__main__":
 
     # score the model
     print_model_scores(grid, X_test=X_test_scaled)
-        
-    """
-    Result
-    """
+
+    # feature importance    
+    coef_idx_sorted = grid.best_estimator_["regressor"].coef_[0].argsort()
+    coef_list = grid.best_estimator_["regressor"].coef_[0]
+
+    f, ax = plt.subplots(1, 1, figsize=(10,7))
+
+    plt.barh(X.columns[coef_idx_sorted], coef_list[coef_idx_sorted])
+
+    f.savefig("Logistic regression feature importance")
