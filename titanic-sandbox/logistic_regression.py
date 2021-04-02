@@ -60,7 +60,17 @@ if __name__=="__main__":
     stratified_kfold_no_shuffle = StratifiedKFold()
     stratified_kfold_shuffle = StratifiedKFold(shuffle=True)
 
-    cv_list = [repeated_kfold, stratified_kfold_no_shuffle, stratified_kfold_shuffle]
+    # model
+    logistic_regression = LogisticRegression()
+
+    # TBU
+    param_grid = {
+        [
+            {
+
+            }
+        ]
+    }
 
     # using built in
     # def run_cvs(run_switch=False):
